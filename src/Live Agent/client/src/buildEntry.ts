@@ -12,7 +12,7 @@
  *
  */
 import { ServiceDesk, ServiceDeskFactoryParameters } from '../../../common/types/serviceDesk';
-import { ExampleServiceDesk } from './exampleServiceDesk';
+import { CustomerCareRegistry } from './CustomerCareRegistry';
 // Change ServiceDeskTemplate to your service desk implementation
 import { ServiceDeskTemplate } from './serviceDeskTemplate';
 
@@ -33,11 +33,11 @@ function WebChatServiceDeskFactory(parameters: ServiceDeskFactoryParameters): Se
 function getInstance(
   parameters: ServiceDeskFactoryParameters,
   // Change ServiceDeskTemplate to your service desk implementation
-): ExampleServiceDesk | ServiceDeskTemplate {
+): CustomerCareRegistry | ServiceDeskTemplate {
   // Change ServiceDeskTemplate to your service desk implementation
-  const serviceDeskClass: string = 'ExampleServiceDesk';
+  const serviceDeskClass: string = 'CustomerCareRegistry';
   const constructors: any = {
-    ExampleServiceDesk,
+    CustomerCareRegistry,
 
     // Change ServiceDeskTemplate to your service desk implementation
     ServiceDeskTemplate,

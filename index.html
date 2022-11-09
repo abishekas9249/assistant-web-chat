@@ -24,7 +24,8 @@ Webpack when you are developing using npm run dev.
     integrationID: "2733340b-c63b-409f-8856-c51b04d4a0c1", // The ID of this integration.
     region: "eu-gb", // The region your integration is hosted in.
     serviceInstanceID: "3a769a78-cfe3-4ee1-8f78-ee03c9b67a3f", // The ID of your service instance.
-    onLoad: function(instance) { instance.render(); }
+    onLoad: function(instance) { instance.render(); },
+    serviceDeskFactory: window.WebChatServiceDeskFactory
   };
   setTimeout(function(){
     const t=document.createElement('script');

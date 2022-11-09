@@ -28,7 +28,7 @@ import { stringToMessageResponseFormat } from '../../../common/utils';
  * This class returns startChat, endChat, sendMessageToAgent, updateState, userTyping, userReadMessages and
  * areAnyAgentsOnline to be exposed to web chat through src/buildEntry.ts.
  */
-class ExampleServiceDesk implements ServiceDesk {
+class CustomerCareRegistry implements ServiceDesk {
   agentProfile: AgentProfile;
   callback: ServiceDeskCallback;
   user: User;
@@ -108,7 +108,7 @@ interface MockStep {
   /**
    * The callback to call to run this step.
    */
-  callback: (instance: ExampleServiceDesk) => void;
+  callback: (instance: CustomerCareRegistry) => void;
 
   /**
    * Indicates if this step should return the given promise from the sendMessageToAgent function. This should be on
@@ -155,7 +155,7 @@ const STRINGS = {
 /**
  * A switch statement that routes the request to either one of our hard coded examples or to a random returned message.
  */
-function sendMessageToUser(instance: ExampleServiceDesk, message: MessageRequest): MockStep[] {
+function sendMessageToUser(instance: CustomerCareRegistry, message: MessageRequest): MockStep[] {
   instance.callback.agentTyping(false);
   switch (message?.input?.text?.toLowerCase()) {
     case 'help':
@@ -175,27 +175,27 @@ function sendMessageToUser(instance: ExampleServiceDesk, message: MessageRequest
  * Mocks creating a new session, letting web chat know that there is a wait, having the agent join and then sending
  * some messages back to web chat.
  */
-function sendConnectToAgent(instance: ExampleServiceDesk, connectMessage: MessageResponse): MockStep[] {
+function sendConnectToAgent(instance: CustomerCareRegistry, connectMessage: MessageResponse): MockStep[] {
   // You can use pre:send and pre:receive to build up a history of the previous message to send to the agent.
   // See https://web-chat.global.assistant.watson.cloud.ibm.com/docs.html?to=api-events
   console.log('Agent was sent the following info', connectMessage);
   return [
     {
       delay: 1000,
-      callback: (instance: ExampleServiceDesk) => {
+      callback: (instance: CustomerCareRegistry) => {
         instance.callback.updateAgentAvailability({ estimated_wait_time: 1 });
       },
     },
     {
       delay: 5000,
-      callback: (instance: ExampleServiceDesk) => {
+      callback: (instance: CustomerCareRegistry) => {
         instance.callback.agentJoined(instance.agentProfile);
         instance.callback.agentTyping(true);
       },
     },
     {
       delay: 1000,
-      callback: (instance: ExampleServiceDesk) => {
+      callback: (instance: CustomerCareRegistry) => {
         instance.callback.agentTyping(false);
         instance.callback.sendMessageToUser(
           stringToMessageResponseFormat(getHelloMessage(instance)),
@@ -205,13 +205,13 @@ function sendConnectToAgent(instance: ExampleServiceDesk, connectMessage: Messag
     },
     {
       delay: 1000,
-      callback: (instance: ExampleServiceDesk) => {
+      callback: (instance: CustomerCareRegistry) => {
         instance.callback.agentTyping(true);
       },
     },
     {
       delay: 1000,
-      callback: (instance: ExampleServiceDesk) => {
+      callback: (instance: CustomerCareRegistry) => {
         instance.callback.agentTyping(false);
         instance.callback.sendMessageToUser(
           stringToMessageResponseFormat(STRINGS.instructions),
@@ -225,18 +225,18 @@ function sendConnectToAgent(instance: ExampleServiceDesk, connectMessage: Messag
 /**
  * Returns mock steps to send the instructions back to the web chat.
  */
-function sendInstructions(instance: ExampleServiceDesk): MockStep[] {
+function sendInstructions(instance: CustomerCareRegistry): MockStep[] {
   return [
     {
       delay: 1000,
-      callback: (instance: ExampleServiceDesk) => {
+      callback: (instance: CustomerCareRegistry) => {
         instance.callback.agentReadMessages();
         instance.callback.agentTyping(true);
       },
     },
     {
       delay: 1000,
-      callback: (instance: ExampleServiceDesk) => {
+      callback: (instance: CustomerCareRegistry) => {
         instance.callback.agentTyping(false);
         instance.callback.sendMessageToUser(
           stringToMessageResponseFormat(STRINGS.instructions),
@@ -250,18 +250,18 @@ function sendInstructions(instance: ExampleServiceDesk): MockStep[] {
 /**
  * Sends a random mock message back.
  */
-function sendRandomMessage(instance: ExampleServiceDesk): MockStep[] {
+function sendRandomMessage(instance: CustomerCareRegistry): MockStep[] {
   return [
     {
       delay: 500,
-      callback: (instance: ExampleServiceDesk) => {
+      callback: (instance: CustomerCareRegistry) => {
         instance.callback.agentReadMessages();
         instance.callback.agentTyping(true);
       },
     },
     {
       delay: 2000,
-      callback: (instance: ExampleServiceDesk) => {
+      callback: (instance: CustomerCareRegistry) => {
         instance.callback.agentTyping(false);
         instance.callback.sendMessageToUser(
           stringToMessageResponseFormat(randomMessage(instance)),
@@ -275,17 +275,17 @@ function sendRandomMessage(instance: ExampleServiceDesk): MockStep[] {
 /**
  * This example has two agents. This method will mock a transfer between them.
  */
-function sendTransferAgent(instance: ExampleServiceDesk): MockStep[] {
+function sendTransferAgent(instance: CustomerCareRegistry): MockStep[] {
   return [
     {
       delay: 500,
-      callback: (instance: ExampleServiceDesk) => {
+      callback: (instance: CustomerCareRegistry) => {
         instance.callback.beginTransferToAnotherAgent();
       },
     },
     {
       delay: 1000,
-      callback: (instance: ExampleServiceDesk) => {
+      callback: (instance: CustomerCareRegistry) => {
         // Set the agentProfile on the class to be able to reference.
         instance.agentProfile = instance.agentProfile.id === JIM_ID ? EXAMPLE_AGENT_PROFILE_2 : EXAMPLE_AGENT_PROFILE;
 
@@ -296,7 +296,7 @@ function sendTransferAgent(instance: ExampleServiceDesk): MockStep[] {
     },
     {
       delay: 2000,
-      callback: (instance: ExampleServiceDesk) => {
+      callback: (instance: CustomerCareRegistry) => {
         instance.callback.agentTyping(false);
         instance.callback.sendMessageToUser(
           stringToMessageResponseFormat(getHelloMessage(instance)),
@@ -306,13 +306,13 @@ function sendTransferAgent(instance: ExampleServiceDesk): MockStep[] {
     },
     {
       delay: 500,
-      callback: (instance: ExampleServiceDesk) => {
+      callback: (instance: CustomerCareRegistry) => {
         instance.callback.agentTyping(true);
       },
     },
     {
       delay: 2000,
-      callback: (instance: ExampleServiceDesk) => {
+      callback: (instance: CustomerCareRegistry) => {
         instance.callback.agentTyping(false);
         instance.callback.sendMessageToUser(
           stringToMessageResponseFormat(STRINGS.instructions),
@@ -326,17 +326,17 @@ function sendTransferAgent(instance: ExampleServiceDesk): MockStep[] {
 /**
  * Sends the error status back to web chat mocking the service desk disconnecting and reconnecting.
  */
-function sendDisconnectAndReconnect(instance: ExampleServiceDesk): MockStep[] {
+function sendDisconnectAndReconnect(instance: CustomerCareRegistry): MockStep[] {
   return [
     {
       delay: 1000,
-      callback: (instance: ExampleServiceDesk) => {
+      callback: (instance: CustomerCareRegistry) => {
         instance.callback.setErrorStatus({ type: ErrorType.DISCONNECTED, isDisconnected: true });
       },
     },
     {
       delay: 3000,
-      callback: (instance: ExampleServiceDesk) => {
+      callback: (instance: CustomerCareRegistry) => {
         instance.callback.setErrorStatus({ type: ErrorType.DISCONNECTED, isDisconnected: false });
       },
     },
@@ -346,11 +346,11 @@ function sendDisconnectAndReconnect(instance: ExampleServiceDesk): MockStep[] {
 /**
  * Calls the instance.callback.agentLeftChat() method to make the web chat aware that the agent has left.
  */
-function sendEndChat(instance: ExampleServiceDesk): MockStep[] {
+function sendEndChat(instance: CustomerCareRegistry): MockStep[] {
   return [
     {
       delay: 0,
-      callback: (instance: ExampleServiceDesk) => {
+      callback: (instance: CustomerCareRegistry) => {
         // This method will let web chat know the agent has ended the chat.
         instance.callback.agentEndedChat();
       },
@@ -361,7 +361,7 @@ function sendEndChat(instance: ExampleServiceDesk): MockStep[] {
 /**
  * Returns a random message depending on which agent is active.
  */
-function randomMessage(instance: ExampleServiceDesk): string {
+function randomMessage(instance: CustomerCareRegistry): string {
   const items = instance.agentProfile.id === JIM_ID ? STRINGS.random_jim : STRINGS.random_leonard;
   const index = Math.floor(Math.random() * items.length);
   const message = items[index];
@@ -371,7 +371,7 @@ function randomMessage(instance: ExampleServiceDesk): string {
 /**
  * Returns the hello message string depending on which agent is active.
  */
-function getHelloMessage(instance: ExampleServiceDesk): string {
+function getHelloMessage(instance: CustomerCareRegistry): string {
   return instance.agentProfile.id === JIM_ID ? STRINGS.hello_jim : STRINGS.hello_leonard;
 }
 
@@ -379,7 +379,7 @@ function getHelloMessage(instance: ExampleServiceDesk): string {
  * This function will run a series of steps to simulate some interaction between the agent and a user with pauses
  * in between each step as defined.
  */
-function runSteps(instance: ExampleServiceDesk, steps: MockStep[]): Promise<void> {
+function runSteps(instance: CustomerCareRegistry, steps: MockStep[]): Promise<void> {
   let totalTime = 0;
   steps.forEach((step) => {
     totalTime += step.delay;
@@ -392,4 +392,4 @@ function runSteps(instance: ExampleServiceDesk, steps: MockStep[]): Promise<void
   return lastStep.returnPromise || Promise.resolve();
 }
 
-export { ExampleServiceDesk };
+export { CustomerCareRegistry };
