@@ -15,15 +15,15 @@
 /**
  * Copy and paste this file into a new folder to get started.
  */
-import { MessageRequest, MessageResponse } from '../../../../common/types/message';
-import { User } from '../../../../common/types/profiles';
+import { MessageRequest, MessageResponse } from '../../../common/types/message';
+import { User } from '../../../common/types/profiles';
 import {
   ServiceDesk,
   ServiceDeskFactoryParameters,
   ServiceDeskStateFromWAC,
   StartChatOptions,
-} from '../../../../common/types/serviceDesk';
-import { AgentProfile, ServiceDeskCallback } from '../../../../common/types/serviceDeskCallback';
+} from '../../../common/types/serviceDesk';
+import { AgentProfile, ServiceDeskCallback } from '../../../common/types/serviceDeskCallback';
 /**
  * This class returns startChat, endChat, sendMessageToAgent, updateState, userTyping, userReadMessages and
  * areAnyAgentsOnline to be exposed to web chat through src/buildEntry.ts.
