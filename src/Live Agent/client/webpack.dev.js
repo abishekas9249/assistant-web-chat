@@ -32,7 +32,7 @@ options.plugins = options.plugins || [];
 
 options.plugins.push(
   new HtmlWebpackPlugin({
-    template: path.join(__dirname, '../../../../index.html'),
+    template: path.join(__dirname, '../../../index.html'),
     filename: path.join(__dirname, 'dist', 'index.html'),
     hash: true,
     inject: 'head',
